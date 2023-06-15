@@ -45,7 +45,7 @@ catch (err) {
 
 ### TS Config Base 
 
-(tsconfig.json)[https://github.com/tsconfig/bases/tree/main/bases] is used as the base config for the Typescript compiler.
+[tsconfig.json](https://github.com/tsconfig/bases/tree/main/bases) is used as the base config for the Typescript compiler.
 
 ## License
 
