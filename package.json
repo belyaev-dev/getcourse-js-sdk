@@ -1,0 +1,62 @@
+{
+  "name": "getcourse-js-sdk",
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.0.0",
+  "description": "GetCourse JS SDK",
+  "author": "Denis Belyaev",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/belyaev-dev",
+  "homepage": "https://github.com/belyaev-dev/getcourse-js-sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/belyaev-dev/getcourse-js-sdk.git"
+  },
+  "bugs": "https://github.com/belyaev-dev/getcourse-js-sdk/issues",
+  "keywords": [
+    "getcourse",
+    "api",
+    "sdk",
+    "js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm build && bumpp --commit --push --tag && pnpm publish",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.5",
+    "@vitest/coverage-c8": "^0.31.4",
+    "bumpp": "^9.1.1",
+    "eslint": "^8.42.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
