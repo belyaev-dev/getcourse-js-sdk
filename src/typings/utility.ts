@@ -5,3 +5,9 @@ export type JSONValue =
   | null
   | { [x: string]: JSONValue }
   | Array<JSONValue>
+
+export type ApiResponse<T> = {
+  success: boolean
+  action: string
+  result: T
+}
