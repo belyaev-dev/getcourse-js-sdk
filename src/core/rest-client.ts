@@ -48,15 +48,24 @@ export class RestClient {
 
   async request<T>(method: HttpMethod, init: RequestInit): Promise<T> {
     await this.checkToken()
-    const target = `${this.base_url}${init.url}${init.query ? `?${init.query}` : ''}`
+    const target = `${this.base_url}${init.url}${
+      init.query ? `?${init.query}` : ''
+    }`
 
-    const encodedParams = init.params ? btoa(JSON.stringify(init.params)) : undefined
-    const bodyData = { key: this.access_token, action: init.action, params: encodedParams }
+    const encodedParams = init.params
+      ? btoa(JSON.stringify(init.params))
+      : undefined
+
+    const bodyData = new URLSearchParams({
+      key: this.access_token,
+      ...(init.action && { action: init.action }),
+      ...(encodedParams && { params: encodedParams }),
+    }).toString()
 
     const res = await this.queue.push(fetch, target, {
       method,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: JSON.stringify(bodyData),
+      body: bodyData,
     })
 
     await this.checkError(res)
