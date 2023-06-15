@@ -12,7 +12,6 @@ export class GetCourse {
   private _deal: DealApi
 
   constructor(account_name: string, access_token: string, options?: Options) {
-    // super();
     this.rest = new RestClient(account_name, access_token, options)
 
     this._account = new AccountApi(this.rest)
