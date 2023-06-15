@@ -1,17 +1,17 @@
-import { Deal, Session, System, User } from "../../typings/entities";
+import type { Deal, Session, System, User } from '../../typings/entities'
 
-export type RequestAddDeal = {
-  user: User;
-  system: System;
-  session: Session;
-  deal: Deal;
-};
+export interface RequestAddDeal {
+  user: User
+  system: System
+  session: Session
+  deal: Deal
+}
 
-export type ResponseAddDeal = {};
+export interface ResponseAddDeal {}
 
-export type RequestUpdateDealStatus = {
-  user: Pick<User, "email">;
-  deal: Pick<Deal, "deal_number" | "deal_status">;
-};
+export interface RequestUpdateDealStatus {
+  user: Pick<User, 'email'>
+  deal: Pick<Deal, 'deal_number' | 'deal_status'>
+}
 
-export type ResponseUpdateDealStatus = {};
+export interface ResponseUpdateDealStatus {}
