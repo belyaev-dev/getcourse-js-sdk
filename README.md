@@ -1,6 +1,7 @@
 # GetCourse JS SDK
 
 [![npm](https://img.shields.io/npm/v/getcourse-js-sdk?logo=npm&style=flat&labelColor=000)](https://www.npmjs.com/package/getcourse-js-sdk)
+[![license](https://img.shields.io/github/license/belyaev-dev/getcourse-js-sdk?style=flat&labelColor=000)](https://github.com/belyaev-dev/getcourse-js-sdk/blob/main/LICENSE)
 
 
 Simple [GetCourse.ru](http://getcourse.ru) API client for JavaScript.
@@ -43,9 +44,17 @@ catch (err) {
 
 ## Configuration
 
-### TS Config Base 
+### TS Config Base
 
 [tsconfig.json](https://github.com/tsconfig/bases/tree/main/bases) is used as the base config for the Typescript compiler.
+
+## Contribution
+
+We welcome contributions! If you'd like to contribute, feel free to fork this repository, make your changes, and then submit a pull request.
+
+## Support
+
+If you encounter any problems or have any questions, you can create an issue on the [GitHub issues page](https://github.com/belyaev-dev/getcourse-js-sdk/issues).
 
 ## License
 
