@@ -1,8 +1,9 @@
 import { Endpoint } from '../../core/endpoint'
-import type { RequestAddDeal, RequestUpdateDealStatus } from './types'
+import type { ApiResponse } from '../../typings/utility'
+import type { RequestAddDeal, RequestUpdateDealStatus, ResponseDeal } from './types'
 
 export class DealApi extends Endpoint {
-  addDeal(deal: RequestAddDeal): Promise<any> {
+  addDeal(deal: RequestAddDeal): Promise<ApiResponse<ResponseDeal>> {
     return this.rest.post({
       url: '/pl/api/deals',
       action: 'add',
@@ -10,7 +11,7 @@ export class DealApi extends Endpoint {
     })
   }
 
-  updateStatus(deal: RequestUpdateDealStatus): Promise<any> {
+  updateStatus(deal: RequestUpdateDealStatus): Promise<ApiResponse<ResponseDeal>> {
     return this.rest.post({
       url: '/pl/api/deals',
       action: 'add',
