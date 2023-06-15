@@ -1,4 +1,4 @@
-export interface System {
+export type System = {
   /** Обновлять ли существующего пользователя или заказ */
   refresh_if_exists: 0 | 1
   /** Email партнера (для пользователя) */
@@ -52,7 +52,7 @@ export type Deal = Partial<{
   deal_currency: DealCurrency
 }>
 
-export interface User {
+export type User = {
   /** ID пользователя */
   id?: number
   /** Email пользователя */
@@ -88,7 +88,7 @@ export type Session = Partial<{
   referer: string
 }>
 
-export interface GetCourse {
+export type GetCourse = {
   user: User
   system: System
   session: Session

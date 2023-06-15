@@ -1,17 +1,17 @@
 import type { Deal, Session, System, User } from '../../typings/entities'
 
-export interface RequestAddDeal {
+export type RequestAddDeal = {
   user: User
   system: System
   session: Session
   deal: Deal
 }
 
-export interface ResponseAddDeal {}
+export type ResponseAddDeal = {}
 
-export interface RequestUpdateDealStatus {
+export type RequestUpdateDealStatus = {
   user: Pick<User, 'email'>
   deal: Pick<Deal, 'deal_number' | 'deal_status'>
 }
 
-export interface ResponseUpdateDealStatus {}
+export type ResponseUpdateDealStatus = {}

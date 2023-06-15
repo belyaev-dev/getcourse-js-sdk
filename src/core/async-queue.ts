@@ -1,4 +1,4 @@
-interface AsyncTask<T> {
+type AsyncTask<T> = {
   resolve: (value: T) => void
   reject: () => void
   fn: CallableFunction

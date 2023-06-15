@@ -1,15 +1,15 @@
 import type { Session, System, User } from '../../typings/entities'
 
-export interface RequestAddUser {
+export type RequestAddUser = {
   user: User
   system: Pick<System, 'refresh_if_exists' | 'partner_email'>
   session: Session
 }
 
-export interface ResponseAddUser {}
+export type ResponseAddUser = {}
 
-export interface RequestUpdateUserGroups {
+export type RequestUpdateUserGroups = {
   user: Pick<User, 'id' | 'group_name'>
 }
 
-export interface ResponseUpdateUserGroup {}
+export type ResponseUpdateUserGroup = {}

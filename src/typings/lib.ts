@@ -1,4 +1,4 @@
-export interface Options {
+export type Options = {
   request_delay: number
 }
 
@@ -6,7 +6,7 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export type GetCourseAction = 'add' | 'update' | 'get'
 
-export interface RequestInit {
+export type RequestInit = {
   url: string
   url_base?: string
   query?: string
