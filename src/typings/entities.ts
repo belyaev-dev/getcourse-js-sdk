@@ -88,11 +88,10 @@ export type Session = Partial<{
   referer: string
 }>
 
-export type GetCourse = {
-  user: User
-  system: System
-  session: Session
-  deal: Deal
+export const enum UserStatus {
+  Added = 'added',
+  Active = 'active',
+  InBase = 'in_base',
 }
 
 export const enum DealStatus {
