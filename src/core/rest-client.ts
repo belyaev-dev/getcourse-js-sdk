@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { HttpError } from '../errors/HttpError'
 import { ServerError } from '../errors/ServerError'
 import { TokenError } from '../errors/TokenError'
@@ -22,17 +23,20 @@ export class RestClient {
 
   private async checkToken(): Promise<void> {
     if (!this.access_token)
-      throw new TokenError()
+      throw new TokenError('No access token provided')
   }
 
   private async checkError(res: Response): Promise<void> {
     if (res.ok !== false && res.status !== 204)
       return
     if (res.status === 400) {
-      throw new FormatError()
+      throw new FormatError(
+        res.body ? await res.json() : 'Error',
+        `${res.status} ${res.statusText}, ${res.url}`,
+      )
     }
     else if (res.status === 401) {
-      throw new TokenError()
+      throw new TokenError(res.body ? await res.json() : 'Empty')
     }
     else if (res.status >= 500) {
       throw new ServerError(String(res.status))
@@ -53,7 +57,7 @@ export class RestClient {
     }`
 
     const encodedParams = init.params
-      ? btoa(JSON.stringify(init.params))
+      ? Buffer.from(JSON.stringify(init.params)).toString('base64')
       : undefined
 
     const bodyData = new URLSearchParams({
