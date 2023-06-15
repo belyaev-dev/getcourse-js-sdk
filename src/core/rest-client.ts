@@ -11,12 +11,12 @@ export class RestClient {
   private options: Options
 
   constructor(
-    private account_name: string,
+    account_name: string,
     private access_token: string,
     options?: Options,
   ) {
     this.options = options ?? { request_delay: 150 }
-    this.base_url = `https://${this.account_name}`
+    this.base_url = `https://${account_name}`
     this.queue = new AsyncQueue<Response>(this.options.request_delay)
   }
 
@@ -48,7 +48,7 @@ export class RestClient {
 
   async request<T>(method: HttpMethod, init: RequestInit): Promise<T> {
     await this.checkToken()
-    const target = `https://${this.base_url}.getcourse.ru/pl/api/${init.url}${init.query ? `?${init.query}` : ''}`
+    const target = `${this.base_url}${init.url}${init.query ? `?${init.query}` : ''}`
 
     const encodedParams = init.params ? btoa(JSON.stringify(init.params)) : undefined
     const bodyData = { key: this.access_token, action: init.action, params: encodedParams }
