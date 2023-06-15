@@ -2,6 +2,6 @@
     "extends": "@antfu",
     "rules": {
        "no-console": "warn",
-       "@typescript-eslint/consistent-type-definitions": "off"
+       "@typescript-eslint/consistent-type-definitions": ["error", "type"]
     }
 }
