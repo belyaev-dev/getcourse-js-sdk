@@ -5,6 +5,10 @@ import { RestClient } from './core/rest-client'
 import type { Options } from './typings/lib'
 
 export * from './errors'
+export * from './typings'
+export * from './api/account'
+export * from './api/user'
+export * from './api/deal'
 
 export class GetCourse {
   private rest: RestClient
