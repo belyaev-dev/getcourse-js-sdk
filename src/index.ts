@@ -4,6 +4,8 @@ import { UserApi } from './api/user/client'
 import { RestClient } from './core/rest-client'
 import type { Options } from './typings/lib'
 
+export * from './errors'
+
 export class GetCourse {
   private rest: RestClient
 
