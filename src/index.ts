@@ -4,11 +4,11 @@ import { UserApi } from './api/user/client'
 import { RestClient } from './core/rest-client'
 import type { Options } from './typings/lib'
 
-export * from './errors'
-export * from './typings'
-export * from './api/account'
-export * from './api/user'
-export * from './api/deal'
+export { HttpError, FormatError, ServerError, TokenError } from './errors'
+export type { System, User, Session, UserStatus, DealStatus, PaymentStatus, PaymentType, DealCurrency, Options, HttpMethod, GetCourseAction, RequestInit, JSONValue, RequireAtLeastOne, ExportApiResponse, ImportApiResponse } from './typings'
+export type { RequestExportUsers, RequestExportGroups, RequestExportGroupsUsers, RequestExportPayments, RequestExportDeals, ExportInfo, FieldInfo, ExportedData } from './api/account'
+export type { RequestAddUser, RequestUpdateUserGroups, ResponseUser } from './api/user'
+export type { RequestAddDeal, RequestUpdateDealStatus, ResponseDeal } from './api/deal'
 
 export class GetCourse {
   private rest: RestClient
