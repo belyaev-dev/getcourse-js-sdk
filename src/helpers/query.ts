@@ -5,13 +5,18 @@ export function query(params?: any): string {
 
   const result: string[] = []
 
-  const common = new URLSearchParams(
-    Object.entries(params)
-      .map<string[]>(item => [item[0], String(item[1])]),
-  ).toString()
+  function handleNestedQuery(itemKey: string, itemValue: any) {
+    if (itemValue !== null && typeof itemValue === 'object') {
+      for (const key in itemValue)
+        handleNestedQuery(`${itemKey}[${key}]`, itemValue[key])
+    }
+    else {
+      result.push(`${encodeURIComponent(itemKey)}=${encodeURIComponent(String(itemValue))}`)
+    }
+  }
 
-  if (common !== '')
-    result.push(common)
+  for (const key in params)
+    handleNestedQuery(key, params[key])
 
   return result.filter(item => item !== '').join('&')
 }
