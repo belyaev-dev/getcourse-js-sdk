@@ -19,6 +19,12 @@ export type ImportApiResponse<T> = {
 export type ExportApiResponse<T> = {
   success: boolean
   info: T
+  /**
+   * Сообщение об ошибке
+   * @example Файл еще не создан
+   * @example Объект не найден
+   * @example Должен быть передан хотя бы один фильтр
+   */
   error_message: string
   error: boolean
   error_code?: number
