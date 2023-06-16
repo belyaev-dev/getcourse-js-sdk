@@ -1,13 +1,21 @@
 export type System = {
-  /** Обновлять ли существующего пользователя или заказ */
+  /** Обновлять ли существующего пользователя или заказ
+   * @defaultValue `0`
+  */
   refresh_if_exists: 0 | 1
   /** Email партнера (для пользователя) */
   partner_email?: string
-  /** Добавлять несколько предложений в заказ */
+  /** Добавлять несколько предложений в заказ
+   * @defaultValue `0`
+   */
   multiple_offers: 0 | 1
-  /** Возвращать ссылку на оплату */
+  /** Возвращать ссылку на оплату
+   * @defaultValue `0`
+   */
   return_payment_link: 0 | 1
-  /** Возвращать номер заказа */
+  /** Возвращать номер заказа
+   * @defaultValue `0`
+  */
   return_deal_number: 0 | 1
 }
 
@@ -26,7 +34,9 @@ export type Deal = Partial<{
   deal_cost: string
   /** Код статуса заказа */
   deal_status: DealStatus
-  /** Оплачен ли заказ */
+  /** Оплачен ли заказ
+   * @defaultValue `0`
+  */
   deal_is_paid: 1 | 0
   /** Email менеджера */
   manager_email: string
@@ -47,7 +57,7 @@ export type Deal = Partial<{
    */
   addfields: { [key: string]: string }
   /** Валюта заказа, если не передан - по умолчанию выбран RUB
-   * @default DealCurrency.RUB
+   * @defaultValue `DealCurrency.RUB`
    */
   deal_currency: DealCurrency
 }>
