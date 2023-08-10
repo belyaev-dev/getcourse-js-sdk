@@ -1,6 +1,6 @@
 {
   "name": "getcourse-js-sdk",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@8.0.0",
   "description": "GetCourse JS SDK",
   "author": "Denis Belyaev",
