@@ -1,6 +1,7 @@
 # GetCourse JS SDK
 
 [![npm](https://img.shields.io/npm/v/getcourse-js-sdk?logo=npm&style=flat&labelColor=000)](https://www.npmjs.com/package/getcourse-js-sdk)
+![dependencies](https://img.shields.io/badge/dependencies-0-green?style=flat&labelColor=000)
 [![license](https://img.shields.io/github/license/belyaev-dev/getcourse-js-sdk?style=flat&labelColor=000)](https://github.com/belyaev-dev/getcourse-js-sdk/blob/main/LICENSE)
 
 Simple [GetCourse.ru](http://getcourse.ru) API client for JavaScript.
