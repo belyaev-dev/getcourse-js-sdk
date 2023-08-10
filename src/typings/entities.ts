@@ -98,13 +98,13 @@ export type Session = Partial<{
   referer: string
 }>
 
-export const enum UserStatus {
+export enum UserStatus {
   Added = 'added',
   Active = 'active',
   InBase = 'in_base',
 }
 
-export const enum DealStatus {
+export enum DealStatus {
   New = 'new',
   Payed = 'payed',
   Cancelled = 'cancelled',
@@ -117,7 +117,7 @@ export const enum DealStatus {
   Pending = 'pending',
 }
 
-export const enum PaymentStatus {
+export enum PaymentStatus {
   Expected = 'expected',
   Accepted = 'accepted',
   Returned = 'returned',
@@ -126,7 +126,7 @@ export const enum PaymentStatus {
   ReturnedToBalance = 'returned_to_balance',
 }
 
-export const enum PaymentType {
+export enum PaymentType {
   TwoCheckout = '2CO',
   AlfaBank = 'ALFA',
   NonCashPayment = 'BILL',
@@ -167,7 +167,7 @@ export const enum PaymentType {
   Swedbank = 'swedbank',
 }
 
-export const enum DealCurrency {
+export enum DealCurrency {
   RUB = 'RUB',
   USD = 'USD',
   EUR = 'EUR',
