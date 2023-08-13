@@ -1,22 +1,42 @@
 import { Endpoint } from '../../core/endpoint'
 import { query } from '../../helpers/query'
-import type { ExportApiResponse, RequireAtLeastOne } from './../../typings/utility'
-import type { ExportInfo, ExportedData, FieldInfo, RequestExportDeals, RequestExportGroups, RequestExportGroupsUsers, RequestExportPayments, RequestExportUsers } from './types'
+import type {
+  ExportApiResponse,
+  RequireAtLeastOne,
+} from './../../typings/utility'
+import type {
+  ExportInfo,
+  ExportedData,
+  FieldInfo,
+  RequestExportDeals,
+  RequestExportGroupsUsers,
+  RequestExportPayments,
+  RequestExportUsers,
+} from './types'
 
 export class AccountApi extends Endpoint {
-  /** Выгрузка пользователей из GetCourse */
-  exportUsers(params: RequireAtLeastOne<RequestExportUsers>): Promise<ExportApiResponse<ExportInfo>> {
+  /** Выгрузка групп из GetCourse
+   * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
+   */
+  getGroups(): Promise<ExportApiResponse<ExportInfo>> {
     return this.rest.post<ExportApiResponse<ExportInfo>>({
-      url: '/pl/api/account/users',
-      query: query(params),
+      url: '/pl/api/account/groups',
     })
   }
 
-  /** Выгрузка групп из GetCourse
-   * @param {RequireAtLeastOne<RequestExportGroups>} params Фильтр
-   * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
-  */
-  exportGroups(params: RequireAtLeastOne<RequestExportGroups>): Promise<ExportApiResponse<ExportInfo>> {
+  /** Выгрузка полей из GetCourse
+   * @returns {ExportApiResponse<FieldInfo[]>} Список полей
+   */
+  getFields(): Promise<ExportApiResponse<FieldInfo[]>> {
+    return this.rest.post<ExportApiResponse<FieldInfo[]>>({
+      url: '/pl/api/account/fields',
+    })
+  }
+
+  /** Выгрузка пользователей из GetCourse */
+  exportUsers(
+    params: RequireAtLeastOne<RequestExportUsers>,
+  ): Promise<ExportApiResponse<ExportInfo>> {
     return this.rest.post<ExportApiResponse<ExportInfo>>({
       url: '/pl/api/account/users',
       query: query(params),
@@ -28,7 +48,10 @@ export class AccountApi extends Endpoint {
    * @param {RequestExportGroupsUsers=} params Фильтр
    * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
    */
-  exportGroupUsers(group_id: number, params?: RequestExportGroupsUsers): Promise<ExportApiResponse<ExportInfo>> {
+  exportGroupUsers(
+    group_id: number,
+    params?: RequestExportGroupsUsers,
+  ): Promise<ExportApiResponse<ExportInfo>> {
     return this.rest.post<ExportApiResponse<ExportInfo>>({
       url: `/pl/api/account/groups/${group_id}/users`,
       query: query(params),
@@ -39,7 +62,9 @@ export class AccountApi extends Endpoint {
    * @param {RequireAtLeastOne<RequestExportPayments>} params Фильтр
    * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
    */
-  exportPayments(params: RequireAtLeastOne<RequestExportPayments>): Promise<ExportApiResponse<ExportInfo>> {
+  exportPayments(
+    params: RequireAtLeastOne<RequestExportPayments>,
+  ): Promise<ExportApiResponse<ExportInfo>> {
     return this.rest.post<ExportApiResponse<ExportInfo>>({
       url: '/pl/api/account/payments',
       query: query(params),
@@ -50,20 +75,12 @@ export class AccountApi extends Endpoint {
    * @param {RequireAtLeastOne<RequestExportDeals>} params Фильтр
    * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
    */
-  exportDeals(params: RequireAtLeastOne<RequestExportDeals>): Promise<ExportApiResponse<ExportInfo>> {
+  exportDeals(
+    params: RequireAtLeastOne<RequestExportDeals>,
+  ): Promise<ExportApiResponse<ExportInfo>> {
     return this.rest.post<ExportApiResponse<ExportInfo>>({
       url: '/pl/api/account/deals',
       query: query(params),
-    })
-  }
-
-  /** Выгрузка полей из GetCourse
-   * @returns {ExportApiResponse<FieldInfo[]>} Список полей
-   */
-  getFields(): Promise<ExportApiResponse<FieldInfo[]>> {
-    return this.rest.post<ExportApiResponse<FieldInfo[]>>({
-      url: '/pl/api/account/fields',
-      action: 'get',
     })
   }
 
