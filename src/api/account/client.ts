@@ -8,6 +8,7 @@ import type {
   ExportInfo,
   ExportedData,
   FieldInfo,
+  GroupInfo,
   RequestExportDeals,
   RequestExportGroupsUsers,
   RequestExportPayments,
@@ -18,8 +19,8 @@ export class AccountApi extends Endpoint {
   /** Выгрузка групп из GetCourse
    * @returns {ExportApiResponse<ExportInfo>} ID задачи на экспорт
    */
-  getGroups(): Promise<ExportApiResponse<ExportInfo>> {
-    return this.rest.post<ExportApiResponse<ExportInfo>>({
+  getGroups(): Promise<ExportApiResponse<GroupInfo[]>> {
+    return this.rest.post<ExportApiResponse<GroupInfo[]>>({
       url: '/pl/api/account/groups',
     })
   }
