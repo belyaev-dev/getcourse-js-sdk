@@ -1,8 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { HttpError } from '../errors/HttpError'
-import { ServerError } from '../errors/ServerError'
-import { TokenError } from '../errors/TokenError'
-import { FormatError } from '../errors/FormatError'
+import { FormatError, HttpError, ServerError, TokenError } from '../errors'
 import type { HttpMethod, Options, RequestInit } from '../typings/lib'
 import { AsyncQueue } from './async-queue'
 
@@ -16,7 +13,7 @@ export class RestClient {
     private access_token: string,
     options?: Options,
   ) {
-    this.options = options ?? { request_delay: 150 }
+    this.options = { request_delay: 150, ...options }
     this.base_url = `https://${account_name}`
     this.queue = new AsyncQueue<Response>(this.options.request_delay)
   }
@@ -26,27 +23,61 @@ export class RestClient {
       throw new TokenError('No access token provided')
   }
 
-  private async checkError(res: Response): Promise<void> {
-    if (res.ok !== false && res.status !== 204)
-      return
+  private async handleHTTPError(res: Response, parsedBody: any): Promise<void> {
     if (res.status === 400) {
       throw new FormatError(
-        res.body ? await res.json() : 'Error',
+        this.extractErrorMessage(parsedBody),
         `${res.status} ${res.statusText}, ${res.url}`,
       )
     }
     else if (res.status === 401) {
-      throw new TokenError(res.body ? await res.json() : 'Empty')
+      throw new TokenError(this.extractErrorMessage(parsedBody, 'Empty'))
     }
     else if (res.status >= 500) {
       throw new ServerError(String(res.status))
     }
     else {
       throw new HttpError(
-        res.body
-          ? await res.text()
-          : `${res.status} ${res.statusText}, ${res.url}`,
+        this.extractErrorMessage(parsedBody, `${res.status} ${res.statusText}, ${res.url}`),
       )
+    }
+  }
+
+  private extractErrorMessage(parsedBody: any, defaultMsg?: string): string {
+    if (typeof parsedBody === 'object' && parsedBody !== null) {
+      if (parsedBody.error_message)
+        return parsedBody.error_message
+      if (parsedBody.result && parsedBody.result.error_message)
+        return parsedBody.result.error_message
+      if (parsedBody.error)
+        return parsedBody.error
+    }
+    return defaultMsg || 'Unknown Error'
+  }
+
+  private async validateResponse(res: Response, body: any): Promise<void> {
+    if (!res.ok || res.status === 204) {
+      this.handleHTTPError(res, body)
+      return
+    }
+
+    if (body.success === false) {
+      if (body.error === 'Неавторизованное API-обращение')
+        throw new TokenError(body.error)
+
+      if (body.error === true && body.error_message)
+        throw new FormatError(body.error_message)
+
+      const errorMessage = body.error || 'Unknown API Error'
+
+      throw new HttpError(errorMessage)
+    }
+    if (body.result && body.result.success === false) {
+      if (
+        body.result?.error === true
+          && body.result?.error_message
+      )
+        throw new FormatError(body.result?.error_message)
     }
   }
 
@@ -72,8 +103,10 @@ export class RestClient {
       body: bodyData,
     })
 
-    await this.checkError(res)
-    return res.body ? ((await res.json()) as T) : (null as T)
+    const parsedBody = res.body ? ((await res.json()) as T) : (null as T)
+    await this.validateResponse(res, parsedBody)
+
+    return parsedBody
   }
 
   post<T>(init: RequestInit): Promise<T> {
