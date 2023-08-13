@@ -10,17 +10,15 @@ export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>
 }[keyof T]
 
-export type ImportApiResponse<T> = ImportApiSuccessResponse<T> | ImportApiErrorResponse
-
-export type ImportApiSuccessResponse<T> = {
+export type ImportApiResponse<T> = {
   success: true
   action: string
   result: T
-}
-
-export type ImportApiErrorResponse = {
-  success: false
-  error: string
+  /**
+   * Сообщение об ошибке
+   * @example Неавторизованное API-обращение
+   */
+  error?: string
 }
 
 export type ExportApiResponse<T> = {
