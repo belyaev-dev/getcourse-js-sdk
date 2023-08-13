@@ -11,7 +11,7 @@ export type RequireAtLeastOne<T> = {
 }[keyof T]
 
 export type ImportApiResponse<T> = {
-  success: true
+  success: boolean
   action: string
   result: T
   /**
