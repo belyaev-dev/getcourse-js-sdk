@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { FormatError, HttpError, ServerError, TokenError } from '../errors'
+import { FormatError, HttpError, TokenError } from '../errors'
 import type { HttpMethod, Options, RequestInit } from '../typings/lib'
 import { AsyncQueue } from './async-queue'
 
@@ -23,44 +23,17 @@ export class RestClient {
       throw new TokenError('No access token provided')
   }
 
-  private async handleHTTPError(res: Response, parsedBody: any): Promise<void> {
-    if (res.status === 400) {
-      throw new FormatError(
-        this.extractErrorMessage(parsedBody),
-        `${res.status} ${res.statusText}, ${res.url}`,
-      )
-    }
-    else if (res.status === 401) {
-      throw new TokenError(this.extractErrorMessage(parsedBody, 'Empty'))
-    }
-    else if (res.status >= 500) {
-      throw new ServerError(String(res.status))
-    }
-    else {
-      throw new HttpError(
-        this.extractErrorMessage(parsedBody, `${res.status} ${res.statusText}, ${res.url}`),
-      )
-    }
-  }
+  private async checkHttpError(res: Response): Promise<void> {
+    if (res.ok || res.status === 204)
+      return
 
-  private extractErrorMessage(parsedBody: any, defaultMsg?: string): string {
-    if (typeof parsedBody === 'object' && parsedBody !== null) {
-      if (parsedBody.error_message)
-        return parsedBody.error_message
-      if (parsedBody.result && parsedBody.result.error_message)
-        return parsedBody.result.error_message
-      if (parsedBody.error)
-        return parsedBody.error
-    }
-    return defaultMsg || 'Unknown Error'
+    if (res.headers.get('Content-Type') === 'application/problem+json')
+      throw new FormatError(res.body ? await res.json() : 'Error', `${res.status} ${res.statusText}, ${res.url}`)
+    else
+      throw new HttpError(res.body ? await res.text() : `${res.status} ${res.statusText}, ${res.url}`)
   }
 
   private async validateResponse(res: Response, body: any): Promise<void> {
-    if (!res.ok || res.status === 204) {
-      this.handleHTTPError(res, body)
-      return
-    }
-
     if (body.success === false) {
       if (body.error === 'Неавторизованное API-обращение')
         throw new TokenError(body.error)
@@ -102,6 +75,8 @@ export class RestClient {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: bodyData,
     })
+
+    await this.checkHttpError(res)
 
     const parsedBody = res.body ? ((await res.json()) as T) : (null as T)
     await this.validateResponse(res, parsedBody)
